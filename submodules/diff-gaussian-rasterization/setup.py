@@ -3,7 +3,7 @@
 # GRAPHDECO research group, https://team.inria.fr/graphdeco
 # All rights reserved.
 #
-# This software is free for non-commercial, research and evaluation use 
+# This software is free for non-commercial, research and evaluation use
 # under the terms of the LICENSE.md file.
 #
 # For inquiries contact  george.drettakis@inria.fr
@@ -26,8 +26,10 @@ setup(
             "cuda_rasterizer/backward.cu",
             "rasterize_points.cu",
             "ext.cpp"],
-            extra_compile_args={"nvcc": ["-I" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "third_party/glm/")]})
-        ],
+            extra_compile_args={"nvcc": ["-I" + os.environ.get("CUDA_INCLUDE", ""), "-I" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "third_party/glm/")]},
+            extra_link_args=["-L" + os.environ.get("CUDA_LIB", "")]
+        ),
+    ],
     cmdclass={
         'build_ext': BuildExtension
     }
